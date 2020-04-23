@@ -8,7 +8,4 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
-logging:
-  pattern:
-    console: "%m%n"
+  mapper-locations: classpath:mapper/*.xml
