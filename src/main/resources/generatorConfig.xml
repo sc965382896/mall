@@ -39,7 +39,7 @@
         </javaClientGenerator>
 
         <table tableName="mall_order" domainObjectName="Order" enableCountByExample="false"
-        enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="mall_order_item" domainObjectName="OrderItem" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
 
