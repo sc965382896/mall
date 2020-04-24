@@ -6,7 +6,6 @@
     <sql id="Base_Column_List">
         id, parent_id, name, status, sort_order, create_time, update_time
     </sql>
-
     <select id="queryById" resultType="com.imooc.mall.pojo.Category">
         select
         <include refid="Base_Column_List"/>
