@@ -5,12 +5,14 @@
 
 <generatorConfiguration>
     <!--配置驱动的路径-->
-    <classPathEntry location="E:\project\mysql-connector-java-5.1.6.jar" />
+    <classPathEntry location="E:\project\jar\mysql-connector-java-5.1.6.jar" />
  
     <context id="DB2Tables" targetRuntime="MyBatis3">
 
         <!--不再堆加方法-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+
+        <!--不再覆盖方法-->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
