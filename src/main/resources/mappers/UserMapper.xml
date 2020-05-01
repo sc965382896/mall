@@ -151,13 +151,13 @@
   </update>
   <select id="CountByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
-    count (1)
+    count(1)
     from mall_user
     where username = #{username,jdbcType=VARCHAR}
   </select>
   <select id="CountByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
-    count (1)
+    count(1)
     from mall_user
     where email = #{email,jdbcType=VARCHAR}
   </select>
