@@ -60,10 +60,6 @@ public class UserController {
     public ResponseVo<User> UserInfo(HttpSession session) {
         log.info("/user session={}", session.getId());
         User user = (User)session.getAttribute(CURRENT_USER);
-        if (user == null) {
-            return ResponseVo.error(ResponseEnum.NEED_LOGIN);
-        }
-
         return ResponseVo.success(user);
     }
 
@@ -71,11 +67,6 @@ public class UserController {
     @PostMapping("/user/logout")
     public ResponseVo<User> logout(HttpSession session) {
         log.info("/user/logout session={}", session.getId());
-        User user = (User)session.getAttribute(CURRENT_USER);
-        if (user == null) {
-            return ResponseVo.error(ResponseEnum.NEED_LOGIN);
-        }
-
         session.removeAttribute(CURRENT_USER);
         return ResponseVo.successWithMsg("退出成功");
 
