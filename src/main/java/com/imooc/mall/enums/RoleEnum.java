@@ -9,7 +9,7 @@ public enum RoleEnum {
     CUSTOMER(1);
 
     Integer code;
-    RoleEnum(Integer code) {
+    private RoleEnum(Integer code) {
         this.code = code;
     }
 }
