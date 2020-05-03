@@ -44,10 +44,11 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table tableName="mall_order_item" domainObjectName="OrderItem" enableCountByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
-<!--        <table tableName="mall_pay_info" domainObjectName="PayInfo" enableUpdateByExample="false"-->
-<!--               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false"/>-->
-        <table tableName="mall_category" domainObjectName="Category" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false"/>
+<!--        <table tableName="mall_product" domainObjectName="Product" enableUpdateByExample="false"-->
+<!--               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" >-->
+<!--            <columnOverride column="detail" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="sub_images" jdbcType="VARCHAR"/>-->
+<!--        </table>-->
 
     </context>
 </generatorConfiguration>
