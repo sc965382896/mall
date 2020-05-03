@@ -69,6 +69,5 @@ public class UserController {
         log.info("/user/logout session={}", session.getId());
         session.removeAttribute(CURRENT_USER);
         return ResponseVo.successWithMsg("退出成功");
-
     }
 }

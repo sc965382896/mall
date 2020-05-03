@@ -17,7 +17,6 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-
     int CountByUsername(String username);
 
     int CountByEmail(String email);
