@@ -46,8 +46,8 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 <!--        <table tableName="mall_pay_info" domainObjectName="PayInfo" enableUpdateByExample="false"-->
 <!--               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false"/>-->
-<!--        <table tableName="mall_user" domainObjectName="User" enableUpdateByExample="false"-->
-<!--               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false"/>-->
+        <table tableName="mall_category" domainObjectName="Category" enableUpdateByExample="false"
+               enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false"/>
 
     </context>
 </generatorConfiguration>

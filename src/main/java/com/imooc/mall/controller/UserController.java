@@ -22,7 +22,8 @@ import static com.imooc.mall.enums.MallConst.CURRENT_USER;
 @Slf4j
 public class UserController {
 
-    @Autowired IUserService iUserService;
+    @Autowired
+    IUserService iUserService;
 
     @PostMapping("/user/register")
     public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm, BindingResult bindingResult) {
