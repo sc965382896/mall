@@ -23,4 +23,6 @@ public class ICategoryServiceImplTest extends MallApplicationTests {
         ResponseVo<List<CategoryVo>> responseVo = categoryService.selectAll();
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
+
+
 }
