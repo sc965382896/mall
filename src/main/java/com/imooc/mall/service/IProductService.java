@@ -1,9 +1,9 @@
 package com.imooc.mall.service;
 
+import com.github.pagehelper.PageInfo;
+import com.imooc.mall.vo.ProductDetailVo;
 import com.imooc.mall.vo.ProductVo;
 import com.imooc.mall.vo.ResponseVo;
-
-import java.util.List;
 
 public interface IProductService {
 
@@ -14,5 +14,7 @@ public interface IProductService {
      * @param pageSize
      * @return
      */
-    ResponseVo<List<ProductVo>> list(Integer categoryId, Integer pageNum, Integer pageSize);
+    ResponseVo<PageInfo<ProductVo>> list(Integer categoryId, Integer pageNum, Integer pageSize);
+
+    ResponseVo<ProductDetailVo> detail(Integer productId);
 }

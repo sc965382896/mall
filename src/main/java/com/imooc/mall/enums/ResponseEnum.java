@@ -19,9 +19,11 @@ public enum ResponseEnum {
 
     EMAIL_EXIST(5, "邮箱已存在"),
 
+    NEED_LOGIN(10, "用户未登录，请先登录"),
+
     USERNAME_OR_PASSWORD_ERROR(11, "用户名或密码错误"),
 
-    NEED_LOGIN(10, "用户未登录，请先登录"),
+    PRODUCT_OFF_SLAE_OR_DELETE(12, "该商品已下架或删除")
     ;
 
     Integer code;
