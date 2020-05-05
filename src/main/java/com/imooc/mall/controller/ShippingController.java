@@ -44,6 +44,7 @@ public class ShippingController {
     }
 
 
+    @GetMapping("/shippings")
     public ResponseVo<PageInfo<Shipping>> list(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                                HttpSession session) {
