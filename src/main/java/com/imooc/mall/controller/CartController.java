@@ -66,5 +66,5 @@ public class CartController {
         User user = (User)session.getAttribute(CURRENT_USER);
         return cartService.sum(user.getId());
     }
-    
+
 }

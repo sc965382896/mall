@@ -12,10 +12,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class IProductServiceImplTest extends MallApplicationTests {
+public class ProductServiceImplTest extends MallApplicationTests {
 
     @Autowired
-    private IProductServiceImpl productService;
+    private ProductServiceImpl productService;
 
     @Test
     public void list() {

@@ -17,7 +17,7 @@ import java.util.Set;
 import static com.imooc.mall.enums.MallConst.ROOT_PARENT_ID;
 
 @Service
-public class ICategoryServiceImpl implements ICategoryService {
+public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -53,21 +53,6 @@ public class ICategoryServiceImpl implements ICategoryService {
         return ResponseVo.success(categoryVoList);
     }
 
-    @Override
-    public void findSubCategoryId(Integer id, Set<Integer> resultSet) {
-        List<Category> categories = categoryMapper.selectAll();
-        findSubCategoryId(id, resultSet, categories);
-    }
-
-    private void findSubCategoryId(Integer id, Set<Integer> resultSet, List<Category> categories) {
-        for (Category category : categories) {
-            if (category.getParentId().equals(id)) {
-                resultSet.add(category.getId());
-                findSubCategoryId(category.getId(), resultSet, categories);
-            }
-        }
-    }
-
     private void findSubCategories(List<CategoryVo> categoryVoList, List<Category> categories) {
         for (CategoryVo categoryVo : categoryVoList) {
             List<CategoryVo> subCategoryVoList = new ArrayList<>();
@@ -87,4 +72,20 @@ public class ICategoryServiceImpl implements ICategoryService {
         BeanUtils.copyProperties(category, categoryVo);
         return categoryVo;
     }
+
+    @Override
+    public void findSubCategoryId(Integer id, Set<Integer> resultSet) {
+        List<Category> categories = categoryMapper.selectAll();
+        findSubCategoryId(id, resultSet, categories);
+    }
+
+    private void findSubCategoryId(Integer id, Set<Integer> resultSet, List<Category> categories) {
+        for (Category category : categories) {
+            if (category.getParentId().equals(id)) {
+                resultSet.add(category.getId());
+                findSubCategoryId(category.getId(), resultSet, categories);
+            }
+        }
+    }
+
 }

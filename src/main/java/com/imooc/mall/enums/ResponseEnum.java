@@ -31,6 +31,8 @@ public enum ResponseEnum {
 
     CART_PRODUCT_NOT_EXIST(15, "购物车中无此商品"),
 
+    SHIPPING_ERROR(6, "地址改动错误"),
+
     ;
 
     Integer code;

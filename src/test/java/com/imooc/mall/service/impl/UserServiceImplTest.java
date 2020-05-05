@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class IUserServiceImplTest extends MallApplicationTests {
+public class UserServiceImplTest extends MallApplicationTests {
 
     public static final String USERNAME = "lucy";
 
@@ -22,7 +22,7 @@ public class IUserServiceImplTest extends MallApplicationTests {
 
     @Autowired
     // 可以用接口声明，因为实现类唯一。
-    private IUserServiceImpl iUserService;
+    private UserServiceImpl iUserService;
 
     @Before
     public void register() {

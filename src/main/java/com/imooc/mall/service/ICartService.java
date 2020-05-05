@@ -11,7 +11,7 @@ public interface ICartService {
 
     ResponseVo<CartVo> add(Integer uId, CartAddForm form);
 
-    ResponseVo<CartVo> update(Integer uId, Integer productId, CartUpdateForm cartUpdateForm);
+    ResponseVo<CartVo> update(Integer uId, Integer productId, CartUpdateForm form);
 
     ResponseVo<CartVo> delete(Integer uId, Integer productId);
 

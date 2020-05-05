@@ -27,6 +27,12 @@ public class ResponseVo<T> {
         this.data = data;
     }
 
+    public ResponseVo(Integer status, String msg, T data) {
+        this.status = status;
+        this.msg = msg;
+        this.data = data;
+    }
+
     // 成功
     public static <T> ResponseVo<T> successWithMsg(String msg) {
         return new ResponseVo<>(ResponseEnum.SUCCEESS.getCode(), msg);
@@ -40,6 +46,11 @@ public class ResponseVo<T> {
     // 返回成功的数据data
     public static <T> ResponseVo<T> success(T data) {
         return new ResponseVo<>(ResponseEnum.SUCCEESS.getCode(), data);
+    }
+
+    // 返回成功包含数据和信息
+    public static <T> ResponseVo<T> success(String msg,T data) {
+        return new ResponseVo<>(ResponseEnum.SUCCEESS.getCode(), msg, data);
     }
 
     // 错误返回

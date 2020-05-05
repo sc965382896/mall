@@ -13,7 +13,7 @@ import org.springframework.util.DigestUtils;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class IUserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;

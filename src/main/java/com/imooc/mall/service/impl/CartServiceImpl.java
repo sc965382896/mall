@@ -24,7 +24,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class ICartServiceImpl implements ICartService {
+public class CartServiceImpl implements ICartService {
 
     private final static String CART_REDIS_KEY_TEMPLATE = "cart_%d";
     @Autowired
@@ -132,7 +132,7 @@ public class ICartServiceImpl implements ICartService {
     }
 
     @Override
-    public ResponseVo<CartVo> update(Integer uId, Integer productId, CartUpdateForm cartUpdateForm) {
+    public ResponseVo<CartVo> update(Integer uId, Integer productId, CartUpdateForm form) {
         HashOperations<String, String, String> operations = redisTemplate.opsForHash();
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uId);
         String value = operations.get(redisKey, String.valueOf(productId));
@@ -142,11 +142,11 @@ public class ICartServiceImpl implements ICartService {
         }
         // 更新商品信息。
         Cart cart = gson.fromJson(value, Cart.class);
-        if (cartUpdateForm.getQuantity() != null && cart.getQuantity() >= 0) {
+        if (form.getQuantity() != null && cart.getQuantity() >= 0) {
             cart.setQuantity(cart.getQuantity());
         }
-        if (cartUpdateForm.getSelected() != null) {
-            cart.setProductSelected(cartUpdateForm.getSelected());
+        if (form.getSelected() != null) {
+            cart.setProductSelected(form.getSelected());
         }
 
         return list(uId);

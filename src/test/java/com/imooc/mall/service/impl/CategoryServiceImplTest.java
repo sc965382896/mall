@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-public class ICategoryServiceImplTest extends MallApplicationTests {
+public class CategoryServiceImplTest extends MallApplicationTests {
 
     @Autowired
     private ICategoryService categoryService;
