@@ -24,7 +24,7 @@ import static com.imooc.mall.enums.MallConst.CURRENT_USER;
 public class UserController {
 
     @Autowired
-    IUserService iUserService;
+    IUserService userService;
 
     @PostMapping("/user/register")
     public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm, BindingResult bindingResult) {
@@ -38,7 +38,7 @@ public class UserController {
         // 参数无误则调用注册服务，完成数据写入。
         User user = new User();
         BeanUtils.copyProperties(userRegisterForm, user);
-        return iUserService.register(user);
+        return userService.register(user);
     }
 
     @PostMapping("/user/login")
@@ -50,7 +50,7 @@ public class UserController {
 //            return ResponseVo.error(ResponseEnum.PARAM_ERROR, bindingResult);
 //        }
 
-        ResponseVo<User> userResponseVo = iUserService.login(userLoginForm.getUsername(), userLoginForm.getPassword());
+        ResponseVo<User> userResponseVo = userService.login(userLoginForm.getUsername(), userLoginForm.getPassword());
 
         // 设置Session
         session.setAttribute(CURRENT_USER, userResponseVo.getData());

@@ -15,4 +15,5 @@ public class CartVo {
     private BigDecimal cartTotalPrice;
 
     private Integer cartTotalQuantity;
+
 }

@@ -13,11 +13,11 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    ICategoryService iCategoryService;
+    ICategoryService categoryService;
 
     @GetMapping("/categories")
     public ResponseVo<List<CategoryVo>> selectAllCategories() {
-        return iCategoryService.selectAll();
+        return categoryService.selectAll();
     }
 
 }
