@@ -174,15 +174,22 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <delete id="deleteByIdAndUId" parameterType="map">
+  <delete id="deleteByIdAndUid" parameterType="map">
     delete from mall_shipping
     where id = #{shippingId,jdbcType=INTEGER}
-    and user_id = #{uId,jdbcType=INTEGER}
+    and user_id = #{uid,jdbcType=INTEGER}
   </delete>
-  <select id="selectByUId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from mall_shipping
     where user_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByIdAndUid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mall_shipping
+    where id = #{shippingId,jdbcType=INTEGER}
+    and user_id = #{uid,jdbcType=INTEGER}
   </select>
 </mapper>

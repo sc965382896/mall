@@ -2,22 +2,27 @@ package com.imooc.mall.service;
 
 import com.imooc.mall.form.CartAddForm;
 import com.imooc.mall.form.CartUpdateForm;
+import com.imooc.mall.pojo.Cart;
 import com.imooc.mall.vo.CartVo;
 import com.imooc.mall.vo.ResponseVo;
 
+import java.util.List;
+
 public interface ICartService {
 
-    ResponseVo<CartVo> list(Integer uId);
+    ResponseVo<CartVo> list(Integer uid);
 
-    ResponseVo<CartVo> add(Integer uId, CartAddForm form);
+    ResponseVo<CartVo> add(Integer uid, CartAddForm form);
 
-    ResponseVo<CartVo> update(Integer uId, Integer productId, CartUpdateForm form);
+    ResponseVo<CartVo> update(Integer uid, Integer productId, CartUpdateForm form);
 
-    ResponseVo<CartVo> delete(Integer uId, Integer productId);
+    ResponseVo<CartVo> delete(Integer uid, Integer productId);
 
-    ResponseVo<CartVo> selectAll(Integer uId);
+    ResponseVo<CartVo> selectAll(Integer uid);
 
-    ResponseVo<CartVo> unSelectedAll(Integer uId);
+    ResponseVo<CartVo> unSelectedAll(Integer uid);
 
-    ResponseVo<Integer> sum(Integer uId);
+    ResponseVo<Integer> sum(Integer uid);
+
+    List<Cart> listCart(Integer uid);
 }

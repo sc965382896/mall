@@ -19,6 +19,10 @@ public enum ResponseEnum {
 
     EMAIL_EXIST(5, "邮箱已存在"),
 
+    SHIPPING_ERROR(6, "地址改动错误"),
+
+    SHIPPING_NOT_EXIST(7, "地址不存在"),
+
     NEED_LOGIN(10, "用户未登录，请先登录"),
 
     USERNAME_OR_PASSWORD_ERROR(11, "用户名或密码错误"),
@@ -31,7 +35,7 @@ public enum ResponseEnum {
 
     CART_PRODUCT_NOT_EXIST(15, "购物车中无此商品"),
 
-    SHIPPING_ERROR(6, "地址改动错误"),
+    CART_SELECTED_IS_EMPTY(16, "请选择商品后下单"),
 
     ;
 

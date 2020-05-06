@@ -9,11 +9,11 @@ import java.util.Map;
 
 public interface IShippingService {
 
-    ResponseVo<Map<String, Integer>> add(Integer uId, ShippingForm form);
+    ResponseVo<Map<String, Integer>> add(Integer uid, ShippingForm form);
 
-    ResponseVo delete(Integer uId, Integer shippingId);
+    ResponseVo delete(Integer uid, Integer shippingId);
 
-    ResponseVo update(Integer uId, Integer shippingId, ShippingForm form);
+    ResponseVo update(Integer uid, Integer shippingId, ShippingForm form);
 
-    ResponseVo<PageInfo<Shipping>> list(Integer uId, Integer pageNum, Integer pageSize);
+    ResponseVo<PageInfo<Shipping>> list(Integer uid, Integer pageNum, Integer pageSize);
 }

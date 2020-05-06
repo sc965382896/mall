@@ -9,7 +9,8 @@ public interface ShippingMapper {
     int deleteByPrimaryKey(Integer id);
 
     // 根据uId和shippingId两个条件删除。
-    int deleteByIdAndUId(@Param("uId") Integer uId, @Param("shippingId") Integer shippingId);
+    int deleteByIdAndUid(@Param("uid") Integer uid,
+                         @Param("shippingId") Integer shippingId);
 
     int insert(Shipping record);
 
@@ -17,9 +18,12 @@ public interface ShippingMapper {
 
     Shipping selectByPrimaryKey(Integer id);
 
-    List<Shipping> selectByUId(Integer uId);
+    List<Shipping> selectByUid(Integer uid);
 
     int updateByPrimaryKeySelective(Shipping record);
 
     int updateByPrimaryKey(Shipping record);
+
+    Shipping selectByIdAndUid(@Param("uid") Integer uid,
+                              @Param("shippingId") Integer shippingId);
 }
