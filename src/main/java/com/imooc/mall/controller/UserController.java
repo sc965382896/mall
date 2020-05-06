@@ -8,7 +8,6 @@ import com.imooc.mall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +26,7 @@ public class UserController {
     IUserService userService;
 
     @PostMapping("/user/register")
-    public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm, BindingResult bindingResult) {
+    public ResponseVo<User> register(@Valid @RequestBody UserRegisterForm userRegisterForm) {
 
         // 判断是否有数据为空，使得数据提交错误。
 //        if (bindingResult.hasErrors()) {

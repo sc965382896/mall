@@ -45,14 +45,16 @@ public class CategoryServiceImpl implements ICategoryService {
 //                .map(this::category2CategoryVo)
 //                .collect(Collectors.toList());
 
-        // 查询子目录
-
+        // 根据sortOrder对类目排序
         categoryVoList.sort(Comparator.comparing(CategoryVo::getSortOrder).reversed());
+
+        // 查询子目录
         findSubCategories(categoryVoList, categories);
 
         return ResponseVo.success(categoryVoList);
     }
 
+    // 查找子目录
     private void findSubCategories(List<CategoryVo> categoryVoList, List<Category> categories) {
         for (CategoryVo categoryVo : categoryVoList) {
             List<CategoryVo> subCategoryVoList = new ArrayList<>();
@@ -67,6 +69,7 @@ public class CategoryServiceImpl implements ICategoryService {
         }
     }
 
+    // 将Category类转换为categoryVo类。
     private CategoryVo category2CategoryVo(Category category) {
         CategoryVo categoryVo = new CategoryVo();
         BeanUtils.copyProperties(category, categoryVo);

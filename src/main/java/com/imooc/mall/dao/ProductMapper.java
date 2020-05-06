@@ -19,8 +19,10 @@ public interface ProductMapper {
 
     int updateByPrimaryKey(Product record);
 
+    // 根据categoryIdSet查数据。
     List<Product> selectByCategoryIdSet(@Param("categoryIdSet") Set<Integer> categoryIdSet);
 
+    // 根据productIdSet查数据。
     List<Product> selectByProductIdSet(@Param("productIdSet") Set<Integer> productIdSet);
 
 }

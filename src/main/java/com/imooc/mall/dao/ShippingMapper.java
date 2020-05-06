@@ -8,6 +8,7 @@ import java.util.List;
 public interface ShippingMapper {
     int deleteByPrimaryKey(Integer id);
 
+    // 根据uId和shippingId两个条件删除。
     int deleteByIdAndUId(@Param("uId") Integer uId, @Param("shippingId") Integer shippingId);
 
     int insert(Shipping record);

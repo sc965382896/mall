@@ -33,15 +33,23 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ResponseVo<PageInfo<ProductVo>> list(Integer categoryId, Integer pageNum, Integer pageSize) {
+        // 用set保存防止categoryId重复。
         Set<Integer> categoryIdSet = new HashSet<>();
+        // 如果有categoryId则返回他和他的子类目的id。
         if (categoryId != null) {
             iCategoryService.findSubCategoryId(categoryId, categoryIdSet);
             categoryIdSet.add(categoryId);
         }
 
         log.info("categoryIdSet={}", categoryIdSet);
+
+        // 设置分页插件。
         PageHelper.startPage(pageNum, pageSize);
+
+        // 查找数据。
         List<Product> productList = productMapper.selectByCategoryIdSet(categoryIdSet);
+
+        // 使用管道对数据进行转换。
         List<ProductVo> productVoList = productList.stream()
                 .map(e -> {
                     ProductVo productVo = new ProductVo();
@@ -57,11 +65,14 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ResponseVo<ProductDetailVo> detail(Integer productId) {
         Product product = productMapper.selectByPrimaryKey(productId);
+
+        // 如果商品不在售或已删除（软删除）则返回错误。
         if (product.getStatus().equals(ProductStatusEnum.OFF_SALE.getCode())
                 || product.getStatus().equals(ProductStatusEnum.DELETE.getCode())) {
             return ResponseVo.error(ResponseEnum.PRODUCT_OFF_SLAE_OR_DELETE);
         }
 
+        // 返回商品详细信息。
         ProductDetailVo productDetailVo = new ProductDetailVo();
         BeanUtils.copyProperties(product, productDetailVo);
         return ResponseVo.success(productDetailVo);

@@ -13,6 +13,7 @@ public interface CategoryMapper {
 
     Category selectByPrimaryKey(Integer id);
 
+    // 查询所有类目数据。
     List<Category> selectAll();
 
     int updateByPrimaryKeySelective(Category record);

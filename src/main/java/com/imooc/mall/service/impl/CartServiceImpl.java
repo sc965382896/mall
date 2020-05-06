@@ -60,6 +60,7 @@ public class CartServiceImpl implements ICartService {
         HashOperations<String, String, String> operations = redisTemplate.opsForHash();
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uId);
         String value = operations.get(redisKey, String.valueOf(product.getId()));
+
         Cart cart = new Cart();
         if (StringUtils.isEmpty(value)) {
             // 没有该商品，新增
@@ -80,18 +81,23 @@ public class CartServiceImpl implements ICartService {
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uId);
 
         Map<Integer, Cart> cartMap = new HashMap<>();
+
+        // 获取redis数据中的键值对。
         Map<String, String> entries = operations.entries(redisKey);
+
+        // 返回值中的各项数据：商品总数，是否全选，总价。
         Integer totalQuantity = 0;
         Boolean selectAll = true;
         BigDecimal totalPrice = BigDecimal.ZERO;
+
         for (Map.Entry<String, String> stringStringEntry : entries.entrySet()) {
             Integer productId = Integer.valueOf(stringStringEntry.getKey());
             Cart cart = gson.fromJson(stringStringEntry.getValue(), Cart.class);
             cartMap.put(productId, cart);
             totalQuantity += cart.getQuantity();
         }
-        CartVo cartVo = new CartVo();
 
+        CartVo cartVo = new CartVo();
         if (!cartMap.keySet().isEmpty()) {
             List<Product> products = productMapper.selectByProductIdSet(cartMap.keySet());
             List<CartProductVo> cartProductVoList = new ArrayList<>();
@@ -136,10 +142,12 @@ public class CartServiceImpl implements ICartService {
         HashOperations<String, String, String> operations = redisTemplate.opsForHash();
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uId);
         String value = operations.get(redisKey, String.valueOf(productId));
+
+        // 购物车无该商品，报错。
         if (StringUtils.isEmpty(value)) {
-            // 购物车无该商品，报错。
             return ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
         }
+
         // 更新商品信息。
         Cart cart = gson.fromJson(value, Cart.class);
         if (form.getQuantity() != null && cart.getQuantity() >= 0) {
@@ -157,11 +165,13 @@ public class CartServiceImpl implements ICartService {
         HashOperations<String, String, String> operations = redisTemplate.opsForHash();
         String redisKey = String.format(CART_REDIS_KEY_TEMPLATE, uId);
         String value = operations.get(redisKey, String.valueOf(productId));
+
+        // 购物车无该商品，报错。
         if (StringUtils.isEmpty(value)) {
-            // 购物车无该商品，报错。
             return ResponseVo.error(ResponseEnum.CART_PRODUCT_NOT_EXIST);
         }
 
+        // 使用该指令删除一个键值对，当键值对全部删除的时候该项数据也被删除。
         operations.delete(redisKey, String.valueOf(productId));
         return list(uId);
     }
@@ -194,6 +204,8 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public ResponseVo<Integer> sum(Integer uId) {
+
+        // 使用管道对集合进行操作。
         Integer sum = listCart(uId).stream()
                 .map(Cart::getQuantity)
                 .reduce(0, Integer::sum);
