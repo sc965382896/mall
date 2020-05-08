@@ -20,25 +20,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CartServiceImplTest extends MallApplicationTests {
 
     @Autowired
-    private ICartService iCartService;
+    private ICartService cartService;
 
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     private Integer productId = 26;
-    private Integer uid = 26;
+
+    private Integer uid = 6;
 
     @Before
     public void add() {
         CartAddForm form = new CartAddForm();
         form.setProductId(productId);
         form.setSelected(true);
-        ResponseVo<CartVo> responseVo = iCartService.add(uid, form);
+        ResponseVo<CartVo> responseVo = cartService.add(uid, form);
         log.info("cartAddResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
     @Test
     public void list() {
-        ResponseVo<CartVo> responseVo = iCartService.list(uid);
+        ResponseVo<CartVo> responseVo = cartService.list(uid);
         log.info("cartListResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
@@ -48,35 +50,35 @@ public class CartServiceImplTest extends MallApplicationTests {
         CartUpdateForm form  = new CartUpdateForm();
         form.setQuantity(10);
         form.setSelected(false);
-        ResponseVo<CartVo> responseVo = iCartService.update(uid, productId, form);
+        ResponseVo<CartVo> responseVo = cartService.update(uid, productId, form);
         log.info("cartUpdateResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
     @Test
     public void selectAll() {
-        ResponseVo<CartVo> responseVo = iCartService.selectAll(uid);
+        ResponseVo<CartVo> responseVo = cartService.selectAll(uid);
         log.info("cartSelectAllResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
     @Test
     public void unSelectedAll() {
-        ResponseVo<CartVo> responseVo = iCartService.unSelectedAll(uid);
+        ResponseVo<CartVo> responseVo = cartService.unSelectedAll(uid);
         log.info("cartUnselectedAllResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
     @Test
     public void sum() {
-        ResponseVo<Integer> responseVo = iCartService.sum(uid);
+        ResponseVo<Integer> responseVo = cartService.sum(uid);
         log.info("cartSumResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
     @After
     public void delete() {
-        ResponseVo<CartVo> responseVo = iCartService.delete(uid, productId);
+        ResponseVo<CartVo> responseVo = cartService.delete(uid, productId);
         log.info("cartDeleteResult={}", gson.toJson(responseVo));
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }

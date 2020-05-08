@@ -192,4 +192,15 @@
     where id = #{shippingId,jdbcType=INTEGER}
     and user_id = #{uid,jdbcType=INTEGER}
   </select>
+  <select id="selectByIdSet" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mall_shipping
+    <if test="shippingIdSet.size() > 0">
+      where id in
+      <foreach collection="shippingIdSet" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
 </mapper>

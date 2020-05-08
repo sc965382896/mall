@@ -1,5 +1,7 @@
 package com.imooc.mall.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.imooc.mall.dao.OrderItemMapper;
 import com.imooc.mall.dao.OrderMapper;
 import com.imooc.mall.dao.ProductMapper;
@@ -11,9 +13,11 @@ import com.imooc.mall.enums.ResponseEnum;
 import com.imooc.mall.pojo.*;
 import com.imooc.mall.service.ICartService;
 import com.imooc.mall.service.IOrderService;
+import com.imooc.mall.vo.OrderItemVo;
 import com.imooc.mall.vo.OrderVo;
 import com.imooc.mall.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +92,13 @@ public class OrderServiceImpl implements IOrderService {
             OrderItem item = buildOrderItem(uid, orderNo, cart.getQuantity(), product);
             orderItemList.add(item);
 
+            // 减库存。
+            product.setStock(product.getStock() - cart.getQuantity());
+            int row = productMapper.updateByPrimaryKeySelective(product);
+            if (row <= 0) {
+                return ResponseVo.error(ResponseEnum.ERROR);
+            }
+
         }
 
         // 计算总价格，只计算被选中的商品。
@@ -105,13 +116,79 @@ public class OrderServiceImpl implements IOrderService {
             return ResponseVo.error(ResponseEnum.ERROR);
         }
 
-        // 减库存。
-
         // 更新购物车（选中的商品）
+        for (Cart cart : cartList) {
+            cartService.delete(uid, cart.getProductId());
+        }
 
         // 构造orderVo对象
+        OrderVo orderVo = builderOrderVo(order, orderItemList, shipping);
+        return ResponseVo.success(orderVo);
 
-        return null;
+    }
+
+    @Override
+    public ResponseVo<PageInfo<OrderVo>> list(Integer uid, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Order> orderList = orderMapper.selectByUid(uid);
+
+        Set<Long> orderNoSet = orderList.stream().map(Order::getOrderNo).collect(Collectors.toSet());
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNoSet(orderNoSet);
+        Map<Long, List<OrderItem>> orderItemMap = orderItemList.stream().collect(Collectors.groupingBy(OrderItem::getOrderNo));
+
+        Set<Integer> shippingIdSet = orderList.stream().map(Order::getShippingId).collect(Collectors.toSet());
+        List<Shipping> shippingList = shippingMapper.selectByIdSet(shippingIdSet);
+        Map<Integer, Shipping> shippingMap = shippingList.stream().collect(Collectors.toMap(Shipping::getId, shipping -> shipping));
+
+        List<OrderVo> orderVoList = new ArrayList<>();
+        for (Order order : orderList) {
+            OrderVo orderVo = builderOrderVo(order, orderItemMap.get(order.getOrderNo()), shippingMap.get(order.getShippingId()));
+            orderVoList.add(orderVo);
+        }
+
+        PageInfo<OrderVo> pageInfo = new PageInfo<>(orderVoList);
+
+        return ResponseVo.success(pageInfo);
+    }
+
+    @Override
+    public ResponseVo<OrderVo> detail(Integer uid, Long orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null || !order.getUserId().equals(uid)) {
+            ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+        }
+
+        Set<Long> orderNoSet = new HashSet<>();
+        orderNoSet.add(orderNo);
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNoSet(orderNoSet);
+
+        Shipping shipping = shippingMapper.selectByPrimaryKey(order.getShippingId());
+
+        OrderVo orderVo = builderOrderVo(order, orderItemList, shipping);
+
+        return ResponseVo.success(orderVo);
+    }
+
+    @Override
+    public ResponseVo cancel(Integer uid, Long orderNo) {
+
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null || !order.getUserId().equals(uid)) {
+            ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+        }
+
+        if (!order.getStatus().equals(OrderStatusEnum.NO_PAY.getCode())) {
+            ResponseVo.error(ResponseEnum.ORDER_STATUS_ERROR);
+        }
+
+        order.setStatus(OrderStatusEnum.CANCELED.getCode());
+        order.setCloseTime(new Date());
+        int row = orderMapper.insertSelective(order);
+        if (row <= 0) {
+            ResponseVo.error(ResponseEnum.ERROR);
+        }
+
+        return ResponseVo.success();
     }
 
     private Long generateOrderNo() {
@@ -138,7 +215,6 @@ public class OrderServiceImpl implements IOrderService {
         return order;
     }
 
-
     private OrderItem buildOrderItem(Integer uid, Long orderNo, Integer quantity, Product product) {
         OrderItem item = new OrderItem();
         item.setUserId(uid);
@@ -151,5 +227,24 @@ public class OrderServiceImpl implements IOrderService {
         item.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
 
         return item;
+    }
+
+    private OrderVo builderOrderVo(Order order, List<OrderItem> orderItemList, Shipping shipping) {
+
+        OrderVo orderVo = new OrderVo();
+        BeanUtils.copyProperties(order, orderVo);
+        List<OrderItemVo> orderItemVoList = orderItemList.stream().map(e -> {
+            OrderItemVo orderItemVo = new OrderItemVo();
+            BeanUtils.copyProperties(e, orderItemVo);
+            return orderItemVo;
+        }).collect(Collectors.toList());
+        orderVo.setOrderItemVoList(orderItemVoList);
+
+        if (shipping == null) {
+            orderVo.setShippingId(shipping.getId());
+            orderVo.setShippingVo(shipping);
+        }
+
+        return orderVo;
     }
 }
