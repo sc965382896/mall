@@ -20,7 +20,7 @@ public class CartController {
     @Autowired
     private ICartService cartService;
 
-    @GetMapping("carts")
+    @GetMapping("/carts")
     public ResponseVo<CartVo> list(@Valid @RequestBody CartAddForm cartAddForm,
                                   HttpSession session) {
         User user = (User)session.getAttribute(CURRENT_USER);
