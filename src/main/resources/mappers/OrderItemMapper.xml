@@ -177,7 +177,7 @@
     <include refid="Base_Column_List" />
     from mall_order_item
     <if test="orderNoSet.size() > 0">
-      where id in
+      where order_no in
       <foreach collection="orderNoSet" item="item" index="index" open="(" separator="," close=")">
         #{item}
       </foreach>

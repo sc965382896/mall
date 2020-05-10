@@ -183,12 +183,31 @@ public class OrderServiceImpl implements IOrderService {
 
         order.setStatus(OrderStatusEnum.CANCELED.getCode());
         order.setCloseTime(new Date());
-        int row = orderMapper.insertSelective(order);
+        int row = orderMapper.updateByPrimaryKeySelective(order);
         if (row <= 0) {
             ResponseVo.error(ResponseEnum.ERROR);
         }
 
         return ResponseVo.success();
+    }
+
+    @Override
+    public void update(Long orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null) {
+            throw new RuntimeException(ResponseEnum.ORDER_NOT_EXIST + "订单号：" + orderNo);
+        }
+
+        if (!order.getStatus().equals(OrderStatusEnum.NO_PAY.getCode())) {
+            throw new RuntimeException(ResponseEnum.ORDER_STATUS_ERROR + "订单号：" + orderNo);
+        }
+
+        order.setStatus(OrderStatusEnum.PAID.getCode());
+        order.setPaymentTime(new Date());
+        int row = orderMapper.updateByPrimaryKeySelective(order);
+        if (row <= 0) {
+            throw new RuntimeException("修改订单状态为已付款失败，订单号：" + orderNo);
+        }
     }
 
     private Long generateOrderNo() {

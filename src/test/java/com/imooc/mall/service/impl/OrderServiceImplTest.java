@@ -16,10 +16,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Transactional
 public class OrderServiceImplTest extends MallApplicationTests {
 
     @Autowired
@@ -74,11 +72,11 @@ public class OrderServiceImplTest extends MallApplicationTests {
         Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
     }
 
-    @Test
-    public void cancel() {
-        ResponseVo<OrderVo> orderVoResponseVo = createOrderVo();
-        ResponseVo responseVo = orderService.cancel(uid, orderVoResponseVo.getData().getOrderNo());
-        log.info("result={}", responseVo);
-        Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
-    }
+//    @After
+//    public void cancel() {
+//        ResponseVo<OrderVo> orderVoResponseVo = createOrderVo();
+//        ResponseVo responseVo = orderService.cancel(uid, orderVoResponseVo.getData().getOrderNo());
+//        log.info("result={}", responseVo);
+//        Assert.assertEquals(ResponseEnum.SUCCEESS.getCode(), responseVo.getStatus());
+//    }
 }
