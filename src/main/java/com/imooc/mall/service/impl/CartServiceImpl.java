@@ -166,6 +166,7 @@ public class CartServiceImpl implements ICartService {
             cart.setProductSelected(form.getSelected());
         }
 
+        operations.put(redisKey, String.valueOf(productId), gson.toJson(cart));
         return list(uid);
     }
 

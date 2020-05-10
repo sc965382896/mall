@@ -174,18 +174,18 @@ public class OrderServiceImpl implements IOrderService {
 
         Order order = orderMapper.selectByOrderNo(orderNo);
         if (order == null || !order.getUserId().equals(uid)) {
-            ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+            return ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
         }
 
         if (!order.getStatus().equals(OrderStatusEnum.NO_PAY.getCode())) {
-            ResponseVo.error(ResponseEnum.ORDER_STATUS_ERROR);
+            return ResponseVo.error(ResponseEnum.ORDER_STATUS_ERROR);
         }
 
         order.setStatus(OrderStatusEnum.CANCELED.getCode());
         order.setCloseTime(new Date());
         int row = orderMapper.updateByPrimaryKeySelective(order);
         if (row <= 0) {
-            ResponseVo.error(ResponseEnum.ERROR);
+            return ResponseVo.error(ResponseEnum.ERROR);
         }
 
         return ResponseVo.success();
