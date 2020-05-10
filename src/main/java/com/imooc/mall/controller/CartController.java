@@ -21,8 +21,7 @@ public class CartController {
     private ICartService cartService;
 
     @GetMapping("/carts")
-    public ResponseVo<CartVo> list(@Valid @RequestBody CartAddForm cartAddForm,
-                                  HttpSession session) {
+    public ResponseVo<CartVo> list(HttpSession session) {
         User user = (User)session.getAttribute(CURRENT_USER);
         return cartService.list(user.getId());
     }
