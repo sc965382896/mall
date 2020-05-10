@@ -155,11 +155,11 @@ public class OrderServiceImpl implements IOrderService {
     public ResponseVo<OrderVo> detail(Integer uid, Long orderNo) {
         Order order = orderMapper.selectByOrderNo(orderNo);
         if (order == null || !order.getUserId().equals(uid)) {
-            ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
+            return ResponseVo.error(ResponseEnum.ORDER_NOT_EXIST);
         }
 
         Set<Long> orderNoSet = new HashSet<>();
-        orderNoSet.add(orderNo);
+        orderNoSet.add(order.getOrderNo());
         List<OrderItem> orderItemList = orderItemMapper.selectByOrderNoSet(orderNoSet);
 
         Shipping shipping = shippingMapper.selectByPrimaryKey(order.getShippingId());
@@ -259,7 +259,7 @@ public class OrderServiceImpl implements IOrderService {
         }).collect(Collectors.toList());
         orderVo.setOrderItemVoList(orderItemVoList);
 
-        if (shipping == null) {
+        if (shipping != null) {
             orderVo.setShippingId(shipping.getId());
             orderVo.setShippingVo(shipping);
         }
